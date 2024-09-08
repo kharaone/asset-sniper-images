@@ -45,7 +45,7 @@ jobs:
       - name: List all changed files
         id: list-files
         run: |
-          echo "tools=$(ls -A Docker/)" >> ${GITHUB_OUTPUT}
+          echo "tools=($(ls -A Docker/))" >> ${GITHUB_OUTPUT}
       
       - name: Show tools
         run: |
