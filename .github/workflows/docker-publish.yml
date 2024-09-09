@@ -23,10 +23,14 @@ env:
 
 
 jobs:
-  prepare:
+  build:
     runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.list-files.outputs.tools }}
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -41,19 +45,11 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-  build:
-  
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-      # This is used to complete the identity challenge
-      # with sigstore/fulcio when running outside of PRs.
-      id-token: write
-
-    steps:
-
+      - name: Building & Pushing Docker Image
+        run: |
+          echo cwd
+          echo pwd
+          
       - name: Building & Pushing Docker Image
         run: |
           for tools in $(ls -A Docker/);
