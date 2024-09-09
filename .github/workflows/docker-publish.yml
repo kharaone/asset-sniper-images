@@ -67,7 +67,6 @@ jobs:
           
               docker tag $tmpName $IMAGE_ID:$VERSION
               docker push $IMAGE_ID:$VERSION
-              break
           done;          
 
 
